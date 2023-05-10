@@ -8,6 +8,7 @@ from telegram.ext import (
     MessageHandler, 
     filters
 )
+from dotenv import load_dotenv
 import openai
 
 
