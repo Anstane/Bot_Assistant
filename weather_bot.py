@@ -28,11 +28,23 @@ bot = Bot(token=telegram_token)
 dp = Dispatcher(bot)
 
 
+app_storage = {}
+
+
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
     """Ответ на /start."""
+    kb = [
+        [
+            types.KeyboardButton(text='Москва'),
+            types.KeyboardButton(text='Екатеринбург'),
+            types.KeyboardButton(text='Иркутск'),
+            types.KeyboardButton(text='Нижний Тагил')
+        ],
+    ]
+    keyboard = types.ReplyKeyboardMarkup(keyboard=kb, resize_keyboard=True)
     text = 'Здравствуйте! В каком городе вы хотели бы узнать погоду?'
-    await message.answer(text)
+    await message.answer(text, reply_markup=keyboard)
     logging.info('Обработана команда /start.')
 
 
@@ -53,9 +65,8 @@ async def get_weather_forecast(city):
     params = {'q': city, 'appid': weather_token}
 
     try:
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url=endpoint, params=params) as response:
-                weather_json = await response.json()
+        async with app_storage['session'].get(url=endpoint, params=params) as response:
+            weather_json = await response.json()
 
     except aiohttp.ClientConnectionError as error:
         logging.error(f'Не удаётся установить соединение с API: {error}.')
@@ -86,9 +97,8 @@ async def translator(text, target_language):
     }
 
     try:
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url=endpoint, json=body, headers=headers) as response:
-                translated_json = await response.json()
+        async with app_storage['session'].post(url=endpoint, json=body, headers=headers) as response:
+            translated_json = await response.json()
 
     except aiohttp.ClientConnectionError as error:
         logging.error(f'Не удаётся установить соединение с API: {error}.')
@@ -105,6 +115,9 @@ async def translator(text, target_language):
 @dp.message_handler()
 async def main(message: types.Message):
     """Реализация основной функции."""
+
+    app_storage['session'] = aiohttp.ClientSession()
+
     try:
         city = await translator(message.text, 'en')
         weather_json = await get_weather_forecast(city)
