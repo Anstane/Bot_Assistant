@@ -15,7 +15,6 @@ The goal of this project is to create a personal assistant bot, in which I will 
 
 ```
   python3 -m venv venv
-
 ```
 
 #### Install Python requirements:
