@@ -1,40 +1,45 @@
 # telegram_bot_assistant
 
-The goal of this project is to create a personal assistant bot, in which I will try to fit various ideas that will help in a daily life.
+Задачей этого проекта является практика асинхронного программирования.
+Я пытаюсь реализовать телеграм бота с использованием библиотеки aiogram для упрощения простых бытовых задач.
+
+Основной фреймворк - aiohttp.
+Использованные библиотеки: aiogram, aiologger, python-dotenv.
 
 
-## Installation of the bot
 
-#### Clone the repository:
+## Установка бота
+
+#### Клонируем репозиторий:
 
 ```
   git@github.com:Anstane/bot_assistant.git
 ```
 
-#### Creating a venv:
+#### Создаём виртуальное окружение:
 
 ```
   python3 -m venv venv
 ```
 
-#### Install Python requirements:
+#### Устанавливаем requirements.txt:
 
 ```
   pip install -r requirements.txt
 ```
 
-## Used API:
+## Список использованных API:
 
 ```
   OpenWeatherMap API
   Yandex Translator API
 ```
 
-If you want to use this bot you should recieve this **tokens**:
+Если вы хотите использовать этого бота, вам нужно получить следующие **токены**:
 
 - [OpenWeatherMapToken](https://openweathermap.org/api) - **Current Weather Data**
 - [YandexTranslatorToken](https://yandex.ru/dev/translate/) - **IAM-token**
-## Author
+## Автор
 
 - [@Anstane](https://github.com/Anstane)
 
